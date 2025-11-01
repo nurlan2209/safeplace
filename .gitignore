@@ -1,11 +1,9 @@
 # Dependencies
 node_modules/
 client/node_modules/
-server/node_modules/
 
 # Environment variables
 .env
-server/.env
 
 # Build files
 client/build/
@@ -25,9 +23,11 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
-# Old HTML files (migrated to React)
-*.html
-!client/public/index.html
-css/
-js/
+# Backend
+backend/target/
+backend/*.db
+backend/*.sqlite
+backend/*.sqlite3
+
+# Images (keep if needed, otherwise can be removed)
 img/
