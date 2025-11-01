@@ -1,0 +1,129 @@
+body {
+  background-color: #fde2e2;
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== Основной контейнер ===== */
+.form-container {
+  max-width: 550px;
+  margin: 60px auto;
+  background: #fff;
+  padding: 45px 60px;
+  border-radius: 28px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.form-container h1 {
+  color: #b86469;
+  margin-bottom: 30px;
+}
+
+/* ===== Форма ===== */
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  text-align: left;
+}
+
+.edit-form label {
+  color: #b86469;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.edit-form input,
+.edit-form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid #f5b5b8;
+  font-size: 15px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.edit-form input:focus,
+.edit-form textarea:focus {
+  border-color: #d47fa6;
+  box-shadow: 0 0 5px rgba(212, 127, 166, 0.4);
+}
+
+.btn-main {
+  background-color: #b86469;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-top: 15px;
+  transition: 0.3s;
+}
+
+.btn-main:hover {
+  background-color: #a75257;
+}
+
+/* ===== Ссылка Назад ===== */
+.back-link {
+  margin-top: 25px;
+}
+
+.back-link a {
+  color: #b86469;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.back-link a:hover {
+  color: #a75257;
+}
+
+/* ===== Адаптив ===== */
+@media (max-width: 600px) {
+  .form-container {
+    padding: 30px 25px;
+  }
+}
+
+/* ===== Фото профиля ===== */
+.photo-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.profile-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 18px;
+  object-fit: cover;
+  border: 2px solid #f5b5b8;
+  margin-bottom: 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-photo {
+  background-color: #fff;
+  color: #b86469;
+  border: 1px solid #f5b5b8;
+  border-radius: 14px;
+  padding: 8px 18px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: 0.3s ease;
+  font-weight: 500;
+}
+
+.btn-photo:hover {
+  background-color: #ffeef0;
+  border-color: #d47fa6;
+}
+
