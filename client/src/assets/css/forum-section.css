@@ -1,0 +1,173 @@
+/* ====== Разделы форума (темы) ====== */
+
+body {
+  background-color: #fde2e2;
+  color: #333;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+}
+
+.forum {
+  padding: 40px 80px;
+  min-height: 90vh;
+}
+
+/* Заголовок и кнопка */
+.forum-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.forum-header h1 {
+  font-size: 30px;
+  color: #b86469;
+  font-weight: 700;
+}
+
+.forum-header .btn {
+  background-color: #b86469;
+  color: #fff;
+  padding: 14px 30px;
+  border-radius: 10px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+}
+
+.forum-header .btn:hover {
+  background-color: #a0525e;
+}
+
+/* ===== Темы ===== */
+.topics {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.topic {
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 14px;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.07);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.topic:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.12);
+}
+
+.topic h3 {
+  color: #b86469;
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.topic p {
+  color: #555;
+  font-size: 15px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.topic-meta {
+  color: #777;
+  font-size: 13px;
+}
+
+/* ===== Модальное окно ===== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0,0,0,0.4);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 35px 45px;
+  border-radius: 18px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+  width: 600px;
+  height: auto;
+  max-width: 95%;
+  position: relative;
+}
+
+.modal-content h2 {
+  color: #b86469;
+  margin-bottom: 15px;
+}
+
+.modal-content label {
+  font-weight: bold;
+  color: #444;
+  margin-top: 10px;
+  display: block;
+}
+
+.modal-content input,
+.modal-content textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.modal-content textarea {
+  resize: none;
+  min-height: 100px;
+}
+
+.modal-content .anon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  color: #555;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.modal-content .btn {
+  background-color: #b86469;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  width: 100%;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.modal-content .btn:hover {
+  background-color: #9a545e;
+}
+
+/* Крестик */
+.close {
+  position: absolute;
+  top: 12px;
+  right: 20px;
+  font-size: 26px;
+  color: #999;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.close:hover {
+  color: #b86469;
+}
