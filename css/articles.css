@@ -1,0 +1,90 @@
+/* ===== Страница статей ===== */
+body {
+  background-color: #fde2e2;
+  color: #333;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+}
+
+.articles-page {
+  padding: 50px 80px;
+  min-height: 100vh;
+}
+
+.articles-page h1 {
+  color: #b86469;
+  font-size: 36px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+/* ===== Сетка статей ===== */
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 40px;
+  justify-content: center;
+}
+
+/* ===== Карточка статьи ===== */
+.article-card {
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;   /* 🔹 убирает синюю линию */
+  color: inherit;          /* 🔹 сохраняет цвет текста */
+}
+
+.article-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== Изображение ===== */
+.article-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+/* ===== Текст ===== */
+.article-card h2 {
+  color: #b86469;
+  font-size: 22px;
+  margin: 18px 22px 10px;
+  transition: color 0.3s ease;
+}
+
+.article-card:hover h2 {
+  color: #9e4f54; /* 🔹 немного темнее при наведении */
+}
+
+.article-card p {
+  color: #555;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0 22px 22px;
+  text-decoration: none; /* 🔹 гарантированно убирает подчеркивание */
+}
+
+
+/* ===== Кнопка Назад ===== */
+.back-link {
+  margin-bottom: 25px;
+}
+
+.back-link a {
+  color: #b86469;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 17px;
+  transition: 0.3s;
+}
+
+.back-link a:hover {
+  text-decoration: underline;
+}

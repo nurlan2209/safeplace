@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Избранное | SafePlace</title>
+  <link rel="stylesheet" href="css/favorites.css">
+</head>
+<body>
+  <header class="header">
+    <h1>💖 Мои сохранённые статьи</h1>
+  </header>
+
+  <main class="favorites-page">
+
+    <div class="back-link">
+      <a href="user_home.html">← Назад на главную</a>
+    </div>
+
+    <div class="favorites-grid">
+
+      <div class="favorite-card">
+        <img src="img/health1.jpg" alt="Здоровье">
+        <div class="content">
+          <h2>Как заботиться о своём теле</h2>
+          <p>Простые ежедневные привычки для гармоничного состояния и энергии.</p>
+          <div class="buttons">
+            <a href="health_article1.html" class="read">Читать →</a>
+            <button class="delete">Удалить</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="favorite-card">
+        <img src="img/rel1.jpg" alt="Отношения">
+        <div class="content">
+          <h2>Как понять, что отношения здоровые</h2>
+          <p>Признаки уважения, доверия и взаимной поддержки в паре.</p>
+          <div class="buttons">
+            <a href="relationship_article1.html" class="read">Читать →</a>
+            <button class="delete">Удалить</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="favorite-card">
+        <img src="img/sup1.jpg" alt="Советы">
+        <div class="content">
+          <h2>Как справиться с тревогой</h2>
+          <p>Дыхательные практики, методы самоуспокоения и где найти помощь.</p>
+          <div class="buttons">
+            <a href="support_article1.html" class="read">Читать →</a>
+            <button class="delete">Удалить</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // Просто визуально удаляет карточку
+    document.querySelectorAll(".delete").forEach(button => {
+      button.addEventListener("click", () => {
+        button.closest(".favorite-card").remove();
+      });
+    });
+  </script>
+</body>
+</html>
