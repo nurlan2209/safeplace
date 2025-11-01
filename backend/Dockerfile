@@ -10,8 +10,8 @@ RUN mvn dependency:go-offline
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Финальный образ
-FROM eclipse-temurin:17-jre-alpine
+# Финальный образ (поддерживает ARM64 для Mac M1/M2)
+FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 
