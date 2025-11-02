@@ -35,7 +35,8 @@ const ForumCategory = () => {
     setLoading(true);
     setError('');
     try {
-      const data = await postsAPI.getAll(categoryNames[category]);
+      // Pass the English category key instead of Russian name to avoid encoding issues
+      const data = await postsAPI.getAll(category);
       setPosts(data);
     } catch (err) {
       setError('Ошибка загрузки постов: ' + err.message);

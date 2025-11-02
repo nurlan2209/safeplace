@@ -78,12 +78,24 @@ public class MessageService {
     }
 
     public Chat getOrCreateAyalaChat(Long userId) {
-        // Find Ayala user
-        User ayala = userRepository.findByEmail("ayala@safeplace.kz")
-                .orElseThrow(() -> new RuntimeException("Психолог Ayala не найдена"));
-
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Пользователь не найден"));
+
+        // Find or create Ayala user (AI bot account)
+        User ayala = userRepository.findByEmail("ayala@safeplace.kz")
+                .orElseGet(() -> {
+                    // Create Ayala AI bot account if it doesn't exist
+                    User newAyala = new User();
+                    newAyala.setName("Ayala AI");
+                    newAyala.setEmail("ayala@safeplace.kz");
+                    newAyala.setPassword("$2a$10$AYALA_LOCKED_ACCOUNT"); // Locked password
+                    newAyala.setBio("AI психолог-консультант SafePlace 🤖");
+                    newAyala.setRole(com.safeplace.entity.Role.ADMIN);
+                    newAyala.setPostsCount(0);
+                    newAyala.setCommentsCount(0);
+                    newAyala.setFavoritesCount(0);
+                    return userRepository.save(newAyala);
+                });
 
         // Check if chat already exists
         return chatRepository.findByTwoParticipants(user, ayala)
@@ -94,15 +106,15 @@ public class MessageService {
                     Chat savedChat = chatRepository.save(newChat);
 
                     // Send welcome message from Ayala
-                    String welcomeMessage = "Привет! Я Ayala, психолог-консультант SafePlace. 🌿\n\n" +
+                    String welcomeMessage = "Привет! Я Ayala, AI психолог-консультант SafePlace. 🌿\n\n" +
                             "Я здесь, чтобы поддержать тебя в трудные моменты. Ты можешь поделиться со мной своими " +
                             "переживаниями, тревогами или просто поговорить о том, что у тебя на душе.\n\n" +
                             "Все наши разговоры конфиденциальны. Я помогаю при:\n" +
-                            "• Тревожности и стрессе\n" +
-                            "• Низкой самооценке\n" +
-                            "• Сложностях в отношениях\n" +
-                            "• Вопросах самопринятия\n\n" +
-                            "Напиши мне, когда будешь готова. Я всегда на связи. 💗";
+                            "• Тревожности и стрессе 😌\n" +
+                            "• Низкой самооценке 💪\n" +
+                            "• Сложностях в отношениях 💕\n" +
+                            "• Вопросах самопринятия ✨\n\n" +
+                            "Напиши мне, когда будешь готов(а). Я всегда на связи! 💗";
 
                     Message message = new Message();
                     message.setChat(savedChat);

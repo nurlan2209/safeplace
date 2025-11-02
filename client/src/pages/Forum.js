@@ -11,10 +11,24 @@ const Forum = () => {
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     title: '',
-    category: 'Здоровье',
+    category: 'health',
     content: '',
     anonymous: false
   });
+
+  const categoryToEnglish = {
+    'Здоровье': 'health',
+    'Отношения': 'relationships',
+    'Советы и поддержка': 'support',
+    'Личные истории': 'stories'
+  };
+
+  const categoryToRussian = {
+    'health': 'Здоровье',
+    'relationships': 'Отношения',
+    'support': 'Советы и поддержка',
+    'stories': 'Личные истории'
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,22 +36,21 @@ const Forum = () => {
     setError('');
 
     try {
-      await postsAPI.create(formData);
+      // Send English category key to backend
+      const postData = {
+        ...formData,
+        category: categoryToEnglish[formData.category] || formData.category
+      };
+      await postsAPI.create(postData);
       setIsModalOpen(false);
       setFormData({
         title: '',
-        category: 'Здоровье',
+        category: 'health',
         content: '',
         anonymous: false
       });
 
-      const categoryMap = {
-        'Здоровье': 'health',
-        'Отношения': 'relationships',
-        'Советы и поддержка': 'support',
-        'Личные истории': 'stories'
-      };
-      navigate(`/forum/${categoryMap[formData.category]}`);
+      navigate(`/forum/${postData.category}`);
     } catch (err) {
       setError('Ошибка при создании поста: ' + err.message);
     } finally {
@@ -119,10 +132,10 @@ const Forum = () => {
 
               <label>Категория</label>
               <select name="category" value={formData.category} onChange={handleChange} disabled={isLoading}>
-                <option>Здоровье</option>
-                <option>Отношения</option>
-                <option>Советы и поддержка</option>
-                <option>Личные истории</option>
+                <option value="health">Здоровье</option>
+                <option value="relationships">Отношения</option>
+                <option value="support">Советы и поддержка</option>
+                <option value="stories">Личные истории</option>
               </select>
 
               <label>Сообщение</label>
