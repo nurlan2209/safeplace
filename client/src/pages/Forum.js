@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
+import { postsAPI } from '../utils/api';
 import '../assets/css/forum.css';
 
 const Forum = () => {
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     title: '',
     category: 'Здоровье',
@@ -14,16 +18,31 @@ const Forum = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Здесь будет отправка на бэкенд
-    console.log('Post data:', formData);
-    setIsModalOpen(false);
-    // Сброс формы
-    setFormData({
-      title: '',
-      category: 'Здоровье',
-      content: '',
-      anonymous: false
-    });
+    setIsLoading(true);
+    setError('');
+
+    try {
+      await postsAPI.create(formData);
+      setIsModalOpen(false);
+      setFormData({
+        title: '',
+        category: 'Здоровье',
+        content: '',
+        anonymous: false
+      });
+
+      const categoryMap = {
+        'Здоровье': 'health',
+        'Отношения': 'relationships',
+        'Советы и поддержка': 'support',
+        'Личные истории': 'stories'
+      };
+      navigate(`/forum/${categoryMap[formData.category]}`);
+    } catch (err) {
+      setError('Ошибка при создании поста: ' + err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -80,12 +99,12 @@ const Forum = () => {
         </section>
       </main>
 
-      {/* Модальное окно создания темы */}
       {isModalOpen && (
         <div className="modal" style={{ display: 'flex' }}>
           <div className="modal-content">
             <span className="close" onClick={() => setIsModalOpen(false)}>&times;</span>
             <h2>Создать новую тему</h2>
+            {error && <div className="error-message" style={{color: '#d9534f', marginBottom: '10px'}}>{error}</div>}
             <form onSubmit={handleSubmit}>
               <label>Заголовок</label>
               <input
@@ -95,10 +114,11 @@ const Forum = () => {
                 value={formData.title}
                 onChange={handleChange}
                 required
+                disabled={isLoading}
               />
 
               <label>Категория</label>
-              <select name="category" value={formData.category} onChange={handleChange}>
+              <select name="category" value={formData.category} onChange={handleChange} disabled={isLoading}>
                 <option>Здоровье</option>
                 <option>Отношения</option>
                 <option>Советы и поддержка</option>
@@ -113,6 +133,7 @@ const Forum = () => {
                 value={formData.content}
                 onChange={handleChange}
                 required
+                disabled={isLoading}
               />
 
               <label className="anon">
@@ -121,11 +142,14 @@ const Forum = () => {
                   name="anonymous"
                   checked={formData.anonymous}
                   onChange={handleChange}
+                  disabled={isLoading}
                 />
                 Опубликовать анонимно
               </label>
 
-              <button type="submit" className="btn">Опубликовать</button>
+              <button type="submit" className="btn" disabled={isLoading}>
+                {isLoading ? 'Публикация...' : 'Опубликовать'}
+              </button>
             </form>
           </div>
         </div>
