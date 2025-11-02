@@ -1,0 +1,330 @@
+/* ===== Modern Design Enhancements for SafePlace ===== */
+/* Add this file to enhance existing styles with modern features */
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Better body defaults */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Enhanced header with glassmorphism */
+header, .header-logged {
+  background: linear-gradient(135deg, #FDE2E2 0%, #FFE8E8 100%) !important;
+  box-shadow: 0 2px 20px rgba(232, 155, 161, 0.15) !important;
+  backdrop-filter: blur(10px);
+  position: sticky !important;
+  top: 0;
+  z-index: 100;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Modern button styles */
+.btn, button[type="submit"] {
+  background: linear-gradient(135deg, #E89BA1 0%, #B86469 100%) !important;
+  border: none;
+  box-shadow: 0 4px 15px rgba(232, 155, 161, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn:hover, button[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(232, 155, 161, 0.4) !important;
+}
+
+.btn:active, button[type="submit"]:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(232, 155, 161, 0.3) !important;
+}
+
+/* Enhanced cards */
+.section-card, .category, .help-card, .profile-sidebar, .profile-details {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(184, 100, 105, 0.1) !important;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  border: 1px solid rgba(232, 155, 161, 0.2);
+}
+
+.section-card:hover, .category:hover, .help-card:hover {
+  transform: translateY(-8px) scale(1.02) !important;
+  box-shadow: 0 16px 48px rgba(184, 100, 105, 0.2) !important;
+  border-color: rgba(232, 155, 161, 0.4);
+}
+
+/* Animated gradient backgrounds */
+.user-home, .form-page, .about-page {
+  background: linear-gradient(135deg, #E89BA1 0%, #C77D83 50%, #E89BA1 100%) !important;
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Enhanced input fields */
+input, textarea, select {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid #f0d0d0 !important;
+  box-shadow: 0 2px 8px rgba(232, 155, 161, 0.05);
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: #E89BA1 !important;
+  box-shadow: 0 4px 16px rgba(232, 155, 161, 0.2) !important;
+  outline: none;
+  transform: translateY(-2px);
+}
+
+/* Modern modal with backdrop blur */
+.modal {
+  backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Enhanced navigation links */
+header nav a, .header-logged nav a {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+header nav a::after, .header-logged nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #E89BA1, #B86469);
+  transition: width 0.3s ease;
+}
+
+header nav a:hover::after, .header-logged nav a:hover::after {
+  width: 100%;
+}
+
+/* Chat messages enhancement */
+.message {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.message:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.message.sent {
+  background: linear-gradient(135deg, #E89BA1 0%, #D88991 100%) !important;
+}
+
+/* Enhanced form containers */
+.form-container {
+  background: rgba(253, 226, 226, 0.95) !important;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 60px rgba(184, 100, 105, 0.25) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* Profile photo with modern border */
+.profile-sidebar .avatar img, .psychologist-photo {
+  border: 4px solid rgba(232, 155, 161, 0.3) !important;
+  box-shadow: 0 8px 24px rgba(184, 100, 105, 0.2);
+  transition: all 0.3s ease;
+}
+
+.profile-sidebar .avatar img:hover, .psychologist-photo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 32px rgba(184, 100, 105, 0.3);
+}
+
+/* Loading states */
+.btn:disabled, button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.8; }
+}
+
+/* Enhanced scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FDE2E2;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #E89BA1, #B86469);
+  border-radius: 10px;
+  border: 2px solid #FDE2E2;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #D88991, #A75368);
+}
+
+/* Enhanced text selection */
+::selection {
+  background: rgba(232, 155, 161, 0.3);
+  color: #333;
+}
+
+/* Skeleton loading for images */
+img {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton 1.5s ease-in-out infinite;
+}
+
+img[src] {
+  background: none;
+  animation: none;
+}
+
+@keyframes skeleton {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Smooth page transitions */
+.fade-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Enhanced focus states for accessibility */
+a:focus, button:focus, input:focus, select:focus, textarea:focus {
+  outline: 3px solid rgba(232, 155, 161, 0.5);
+  outline-offset: 2px;
+}
+
+/* Modern badge/pill design */
+.badge, .tag {
+  background: linear-gradient(135deg, #FFE8E8, #FDE2E2);
+  border: 1px solid rgba(232, 155, 161, 0.3);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #B86469;
+  display: inline-block;
+  box-shadow: 0 2px 8px rgba(232, 155, 161, 0.1);
+}
+
+/* Enhanced grid layouts */
+.categories, .user-sections, .help-cards {
+  gap: 24px !important;
+}
+
+/* Modern error/success states */
+.error-message {
+  background: linear-gradient(135deg, #FFE8E8, #FFDEDE) !important;
+  border-left: 4px solid #d9534f;
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(217, 83, 79, 0.15);
+  animation: shake 0.5s ease;
+}
+
+.success-message {
+  background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+  border-left: 4px solid #4CAF50;
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.15);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .btn, button {
+    padding: 14px 24px !important;
+    font-size: 16px !important;
+  }
+
+  header, .header-logged {
+    padding: 12px 20px !important;
+  }
+}
+
+/* Dark mode support (for future) */
+@media (prefers-color-scheme: dark) {
+  /* Готово для будущей темной темы */
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
