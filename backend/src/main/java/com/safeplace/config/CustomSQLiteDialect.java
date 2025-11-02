@@ -28,6 +28,21 @@ public class CustomSQLiteDialect extends SQLiteDialect {
             public boolean hasDataTypeInIdentityColumn() {
                 return false;
             }
+
+            @Override
+            public boolean supportsInsertSelectIdentity() {
+                return true;
+            }
         };
+    }
+
+    @Override
+    public boolean supportsInsertReturning() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsInsertReturningGeneratedKeys() {
+        return false;
     }
 }
