@@ -13,11 +13,24 @@ const Messages = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    loadChats();
+    initializeChats();
   }, []);
 
-  const loadChats = async () => {
+  const initializeChats = async () => {
     setLoading(true);
+    try {
+      // First, ensure Ayala chat exists
+      await messagesAPI.getOrCreateAyalaChat();
+
+      // Then load all chats
+      await loadChats();
+    } catch (err) {
+      setError('Ошибка инициализации чатов: ' + err.message);
+      setLoading(false);
+    }
+  };
+
+  const loadChats = async () => {
     try {
       const data = await messagesAPI.getChats();
       setChats(data);

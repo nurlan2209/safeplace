@@ -50,4 +50,11 @@ public class MessageController {
         List<Message> messages = messageService.getChatMessages(chatId);
         return ResponseEntity.ok(messages);
     }
+
+    @PostMapping("/chats/ayala")
+    public ResponseEntity<Chat> getOrCreateAyalaChat() {
+        Long userId = currentUser.getId();
+        Chat chat = messageService.getOrCreateAyalaChat(userId);
+        return ResponseEntity.ok(chat);
+    }
 }

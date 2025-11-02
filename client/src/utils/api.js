@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5050/api';
+const API_URL = '/api';
 
 const getAuthHeader = () => {
   const token = localStorage.getItem('token');
@@ -154,6 +154,18 @@ export const messagesAPI = {
       body: JSON.stringify({ text })
     });
     if (!response.ok) throw new Error('Failed to send message');
+    return response.json();
+  },
+
+  getOrCreateAyalaChat: async () => {
+    const response = await fetch(`${API_URL}/messages/chats/ayala`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeader()
+      }
+    });
+    if (!response.ok) throw new Error('Failed to create Ayala chat');
     return response.json();
   }
 };

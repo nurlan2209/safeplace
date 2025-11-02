@@ -76,4 +76,45 @@ public class MessageService {
     public List<Message> getChatMessages(Long chatId) {
         return messageRepository.findByChatIdOrderByCreatedAtAsc(chatId);
     }
+
+    public Chat getOrCreateAyalaChat(Long userId) {
+        // Find Ayala user
+        User ayala = userRepository.findByEmail("ayala@safeplace.kz")
+                .orElseThrow(() -> new RuntimeException("Психолог Ayala не найдена"));
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Пользователь не найден"));
+
+        // Check if chat already exists
+        return chatRepository.findByTwoParticipants(user, ayala)
+                .orElseGet(() -> {
+                    // Create new chat
+                    Chat newChat = new Chat();
+                    newChat.setParticipants(Arrays.asList(user, ayala));
+                    Chat savedChat = chatRepository.save(newChat);
+
+                    // Send welcome message from Ayala
+                    String welcomeMessage = "Привет! Я Ayala, психолог-консультант SafePlace. 🌿\n\n" +
+                            "Я здесь, чтобы поддержать тебя в трудные моменты. Ты можешь поделиться со мной своими " +
+                            "переживаниями, тревогами или просто поговорить о том, что у тебя на душе.\n\n" +
+                            "Все наши разговоры конфиденциальны. Я помогаю при:\n" +
+                            "• Тревожности и стрессе\n" +
+                            "• Низкой самооценке\n" +
+                            "• Сложностях в отношениях\n" +
+                            "• Вопросах самопринятия\n\n" +
+                            "Напиши мне, когда будешь готова. Я всегда на связи. 💗";
+
+                    Message message = new Message();
+                    message.setChat(savedChat);
+                    message.setSender(ayala);
+                    message.setText(welcomeMessage);
+                    messageRepository.save(message);
+
+                    // Update last message in chat
+                    savedChat.setLastMessage(welcomeMessage);
+                    chatRepository.save(savedChat);
+
+                    return savedChat;
+                });
+    }
 }
