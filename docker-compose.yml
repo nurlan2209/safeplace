@@ -12,6 +12,7 @@ services:
       - backend-data:/app/data
     environment:
       - SPRING_DATASOURCE_URL=jdbc:sqlite:/app/data/safeplace.db
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
     restart: unless-stopped
     networks:
       - safeplace-network
