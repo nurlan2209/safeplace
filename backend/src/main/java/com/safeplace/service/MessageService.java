@@ -26,6 +26,9 @@ public class MessageService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private GeminiService geminiService;
+
     public List<Chat> getUserChats(Long userId) {
         return chatRepository.findByParticipantId(userId);
     }
@@ -69,6 +72,15 @@ public class MessageService {
         // Обновляем последнее сообщение в чате
         chat.setLastMessage(text);
         chatRepository.save(chat);
+
+        // Проверяем, отправлено ли сообщение Ayala AI
+        boolean isAyalaChat = chat.getParticipants().stream()
+                .anyMatch(user -> "ayala@safeplace.kz".equals(user.getEmail()));
+
+        if (isAyalaChat && !sender.getEmail().equals("ayala@safeplace.kz")) {
+            // Генерируем ответ от Ayala AI асинхронно
+            generateAyalaResponse(chat, text);
+        }
 
         return savedMessage;
     }
@@ -128,5 +140,35 @@ public class MessageService {
 
                     return savedChat;
                 });
+    }
+
+    /**
+     * Генерирует и сохраняет ответ от Ayala AI на сообщение пользователя
+     */
+    private void generateAyalaResponse(Chat chat, String userMessage) {
+        try {
+            // Находим пользователя Ayala
+            User ayala = userRepository.findByEmail("ayala@safeplace.kz")
+                    .orElseThrow(() -> new RuntimeException("Ayala AI не найдена"));
+
+            // Генерируем ответ через Gemini API
+            String aiResponse = geminiService.generateResponse(userMessage);
+
+            // Создаем сообщение от Ayala
+            Message ayalaMessage = new Message();
+            ayalaMessage.setChat(chat);
+            ayalaMessage.setSender(ayala);
+            ayalaMessage.setText(aiResponse);
+
+            messageRepository.save(ayalaMessage);
+
+            // Обновляем последнее сообщение в чате
+            chat.setLastMessage(aiResponse);
+            chatRepository.save(chat);
+
+        } catch (Exception e) {
+            // Логируем ошибку, но не прерываем выполнение
+            System.err.println("Ошибка при генерации ответа Ayala: " + e.getMessage());
+        }
     }
 }
