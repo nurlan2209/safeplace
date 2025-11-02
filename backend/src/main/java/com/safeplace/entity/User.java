@@ -42,6 +42,10 @@ public class User {
     @Column(name = "favorites_count")
     private Integer favoritesCount = 0;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role = Role.USER;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
