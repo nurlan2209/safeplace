@@ -18,8 +18,8 @@ WORKDIR /app
 # Копируем собранный jar из стадии сборки
 COPY --from=build /app/target/*.jar app.jar
 
-# Создаем директорию для базы данных
-RUN mkdir -p /app/data
+# Создаем директорию для базы данных с правильными правами
+RUN mkdir -p /app/data && chmod 777 /app/data
 
 # Открываем порт
 EXPOSE 5000
