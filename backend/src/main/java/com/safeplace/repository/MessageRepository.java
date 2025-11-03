@@ -1,3 +1,4 @@
+// backend/src/main/java/com/safeplace/repository/MessageRepository.java
 package com.safeplace.repository;
 
 import com.safeplace.entity.Message;
@@ -9,5 +10,4 @@ import java.util.List;
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
     List<Message> findByChatIdOrderByCreatedAtAsc(Long chatId);
-    List<Message> findBySenderIdOrderByCreatedAtDesc(Long senderId);
 }

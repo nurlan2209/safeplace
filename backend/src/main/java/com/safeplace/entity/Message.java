@@ -15,26 +15,20 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Message {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_id", nullable = false)
-    @JsonIgnoreProperties({"participants", "hibernateLazyInitializer", "handler"})
-    private Chat chat;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "sender_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private User sender;
+    private Chat chat;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String text;
 
-    @Column(nullable = false)
-    private Boolean read = false;
+    @Column(name = "is_ai_message")
+    private Boolean isAiMessage = false;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

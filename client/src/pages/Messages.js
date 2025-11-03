@@ -1,36 +1,67 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Header from '../components/Header';
-import { messagesAPI } from '../utils/api';
-import '../assets/css/messages.css';
+import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import Header from "../components/Header";
+import { messagesAPI } from "../utils/api";
+import "../assets/css/messages.css";
 
 const Messages = () => {
   const [chats, setChats] = useState([]);
   const [activeChat, setActiveChat] = useState(null);
   const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState('');
+  const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+  const [isCreatingChat, setIsCreatingChat] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef(null);
+  const pollingInterval = useRef(null);
 
   useEffect(() => {
-    initializeChats();
+    loadChats();
+    return () => {
+      if (pollingInterval.current) clearInterval(pollingInterval.current);
+    };
   }, []);
 
-  const initializeChats = async () => {
-    setLoading(true);
-    try {
-      // First, ensure Ayala chat exists
-      await messagesAPI.getOrCreateAyalaChat();
+  useEffect(() => {
+    if (messages.length > 0) {
+      scrollToBottom();
+    }
+  }, [messages]);
 
-      // Then load all chats
-      await loadChats();
-    } catch (err) {
-      setError('Ошибка инициализации чатов: ' + err.message);
-      setLoading(false);
+  useEffect(() => {
+    if (activeChat) {
+      startPolling();
+    } else {
+      stopPolling();
+    }
+    return () => stopPolling();
+  }, [activeChat]);
+
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
+
+  const startPolling = () => {
+    stopPolling();
+    pollingInterval.current = setInterval(() => {
+      if (activeChat && !isTyping) {
+        loadMessages(activeChat.id, true);
+      }
+    }, 2000);
+  };
+
+  const stopPolling = () => {
+    if (pollingInterval.current) {
+      clearInterval(pollingInterval.current);
+      pollingInterval.current = null;
     }
   };
 
   const loadChats = async () => {
+    setLoading(true);
     try {
       const data = await messagesAPI.getChats();
       setChats(data);
@@ -39,44 +70,73 @@ const Messages = () => {
         loadMessages(data[0].id);
       }
     } catch (err) {
-      setError('Ошибка загрузки чатов: ' + err.message);
+      setError("Ошибка загрузки чатов: " + err.message);
     } finally {
       setLoading(false);
     }
   };
 
-  const loadMessages = async (chatId) => {
+  const loadMessages = async (chatId, silent = false) => {
     try {
       const data = await messagesAPI.getChatMessages(chatId);
+      const prevLength = messages.length;
       setMessages(data);
+
+      if (data.length > prevLength && data[data.length - 1]?.isAiMessage) {
+        setIsTyping(false);
+      }
     } catch (err) {
-      setError('Ошибка загрузки сообщений: ' + err.message);
+      if (!silent) setError("Ошибка загрузки сообщений: " + err.message);
     }
   };
 
   const handleChatChange = (chat) => {
     setActiveChat(chat);
+    setIsTyping(false);
     loadMessages(chat.id);
+  };
+
+  const handleCreateNewChat = async () => {
+    setIsCreatingChat(true);
+    try {
+      const newChat = await messagesAPI.getOrCreateAyalaChat();
+      await loadChats();
+      setActiveChat(newChat);
+      loadMessages(newChat.id);
+    } catch (err) {
+      setError("Ошибка создания чата: " + err.message);
+    } finally {
+      setIsCreatingChat(false);
+    }
   };
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    if (!newMessage.trim()) return;
+    if (!newMessage.trim() || !activeChat) return;
+
+    const tempMessage = newMessage;
+    setNewMessage("");
 
     try {
-      const message = await messagesAPI.sendMessage(activeChat.id, newMessage);
-      setMessages([...messages, message]);
-      setNewMessage('');
+      const message = await messagesAPI.sendMessage(activeChat.id, tempMessage);
+      setMessages((prev) => [...prev, message]);
+
+      if (activeChat.isAiChat) {
+        setIsTyping(true);
+      }
+
+      await loadChats();
     } catch (err) {
-      setError('Ошибка отправки сообщения: ' + err.message);
+      setError("Ошибка отправки сообщения: " + err.message);
+      setNewMessage(tempMessage);
     }
   };
 
-  const getOtherParticipantName = (chat) => {
-    if (!chat || !chat.participants) return 'Чат';
-    const currentUserId = parseInt(localStorage.getItem('userId'));
-    const otherUser = chat.participants.find(p => p.id !== currentUserId);
-    return otherUser ? otherUser.name : 'Анонимный чат';
+  const getChatTitle = (chat) => {
+    if (!chat) return "Чат";
+    if (chat.chatName) return chat.chatName;
+    const date = new Date(chat.updatedAt);
+    return `Чат от ${date.toLocaleDateString("ru-RU")}`;
   };
 
   return (
@@ -85,25 +145,43 @@ const Messages = () => {
       <main className="messages-page">
         <h1>💬 Сообщения</h1>
 
-        {error && <div style={{color: '#d9534f', marginBottom: '10px'}}>{error}</div>}
+        {error && <div className="error-message">{error}</div>}
 
         {loading ? (
           <p>Загрузка чатов...</p>
         ) : (
           <div className="chat-container">
             <aside className="chat-list">
-              <h2>Мои чаты</h2>
+              <div className="chat-list-header">
+                <h2>Мои чаты</h2>
+                <button
+                  onClick={handleCreateNewChat}
+                  className="new-chat-btn"
+                  disabled={isCreatingChat}
+                >
+                  + Новый чат
+                </button>
+              </div>
               <ul>
                 {chats.length === 0 ? (
-                  <li style={{padding: '10px', color: '#999'}}>Нет активных чатов</li>
+                  <li className="empty-state">Нет активных чатов</li>
                 ) : (
-                  chats.map(chat => (
+                  chats.map((chat) => (
                     <li
                       key={chat.id}
-                      className={`chat-user ${activeChat && activeChat.id === chat.id ? 'active' : ''}`}
+                      className={`chat-item ${
+                        activeChat?.id === chat.id ? "active" : ""
+                      }`}
                       onClick={() => handleChatChange(chat)}
                     >
-                      {getOtherParticipantName(chat)}
+                      <div className="chat-item-title">
+                        {getChatTitle(chat)}
+                      </div>
+                      {chat.lastMessage && (
+                        <div className="chat-item-preview">
+                          {chat.lastMessage.substring(0, 50)}...
+                        </div>
+                      )}
                     </li>
                   ))
                 )}
@@ -117,28 +195,37 @@ const Messages = () => {
               {activeChat ? (
                 <>
                   <div className="chat-header">
-                    <h3>{getOtherParticipantName(activeChat)}</h3>
+                    <h3>{getChatTitle(activeChat)}</h3>
                   </div>
 
                   <div className="chat-messages">
                     {messages.length === 0 ? (
-                      <p style={{textAlign: 'center', color: '#999', marginTop: '20px'}}>
-                        Начните разговор!
-                      </p>
+                      <p className="empty-messages">Начните разговор!</p>
                     ) : (
-                      messages.map(message => {
-                        const currentUserId = parseInt(localStorage.getItem('userId'));
-                        const isSent = message.sender && message.sender.id === currentUserId;
+                      messages.map((message) => {
+                        const isSent = !message.isAiMessage;
                         return (
                           <div
                             key={message.id}
-                            className={`message ${isSent ? 'sent' : 'received'}`}
+                            className={`message ${
+                              isSent ? "sent" : "received"
+                            }`}
                           >
                             {message.text}
                           </div>
                         );
                       })
                     )}
+                    {isTyping && (
+                      <div className="message received typing">
+                        <div className="typing-indicator">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                      </div>
+                    )}
+                    <div ref={messagesEndRef} />
                   </div>
 
                   <div className="chat-input">
@@ -154,7 +241,7 @@ const Messages = () => {
                   </div>
                 </>
               ) : (
-                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#999'}}>
+                <div className="empty-chat">
                   Выберите чат для начала общения
                 </div>
               )}

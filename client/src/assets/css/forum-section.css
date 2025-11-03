@@ -22,6 +22,7 @@
 
 .post-card {
   background: white;
+  position: relative;
   padding: 28px 32px;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);

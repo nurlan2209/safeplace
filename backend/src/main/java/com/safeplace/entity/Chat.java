@@ -17,19 +17,20 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Chat {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "chat_participants",
-        joinColumns = @JoinColumn(name = "chat_id"),
-        inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private List<User> participants = new ArrayList<>();
+    private User user;
+
+    @Column(name = "chat_name")
+    private String chatName;
+
+    @Column(name = "is_ai_chat")
+    private Boolean isAiChat = false;
 
     @Column(name = "last_message", columnDefinition = "TEXT")
     private String lastMessage;

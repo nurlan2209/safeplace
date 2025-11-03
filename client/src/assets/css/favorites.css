@@ -91,10 +91,14 @@ body {
 }
 
 .read {
+  background: none;
+  border: none;
   text-decoration: none;
   color: #b86469;
   font-weight: 600;
   transition: 0.3s;
+  cursor: pointer;
+  padding: 0;
 }
 
 .read:hover {
