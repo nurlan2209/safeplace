@@ -10,6 +10,7 @@ services:
       - "5050:5000"
     volumes:
       - backend-data:/app/data
+    env_file: ./.env
     environment:
       - SPRING_DATASOURCE_URL=jdbc:sqlite:/app/data/safeplace.db
       - GEMINI_API_KEY=${GEMINI_API_KEY}
