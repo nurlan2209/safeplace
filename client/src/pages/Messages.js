@@ -110,6 +110,21 @@ const Messages = () => {
     }
   };
 
+  const handleDeleteChat = async (chatId) => {
+    if (!window.confirm("Удалить этот чат? Это действие необратимо.")) return;
+    try {
+      await messagesAPI.deleteChat(chatId);
+      // Reload chats and clear active if it was the deleted one
+      await loadChats();
+      if (activeChat?.id === chatId) {
+        setActiveChat(null);
+        setMessages([]);
+      }
+    } catch (err) {
+      setError("Ошибка удаления чата: " + err.message);
+    }
+  };
+
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!newMessage.trim() || !activeChat) return;
@@ -118,17 +133,20 @@ const Messages = () => {
     setNewMessage("");
 
     try {
-      const message = await messagesAPI.sendMessage(activeChat.id, tempMessage);
-      setMessages((prev) => [...prev, message]);
-
+      // If this is an AI chat, show typing indicator immediately while API works
       if (activeChat.isAiChat) {
         setIsTyping(true);
       }
 
+      const message = await messagesAPI.sendMessage(activeChat.id, tempMessage);
+      setMessages((prev) => [...prev, message]);
+
+      // Refresh chats (last message/ordering) and messages will be picked up by polling or loader
       await loadChats();
     } catch (err) {
       setError("Ошибка отправки сообщения: " + err.message);
       setNewMessage(tempMessage);
+      setIsTyping(false);
     }
   };
 
@@ -174,14 +192,28 @@ const Messages = () => {
                       }`}
                       onClick={() => handleChatChange(chat)}
                     >
-                      <div className="chat-item-title">
-                        {getChatTitle(chat)}
-                      </div>
-                      {chat.lastMessage && (
-                        <div className="chat-item-preview">
-                          {chat.lastMessage.substring(0, 50)}...
+                      <div className="chat-item-main">
+                        <div className="chat-item-title">
+                          {getChatTitle(chat)}
                         </div>
-                      )}
+                        {chat.lastMessage && (
+                          <div className="chat-item-preview">
+                            {chat.lastMessage.substring(0, 50)}...
+                          </div>
+                        )}
+                      </div>
+                      <div className="chat-item-actions">
+                        <button
+                          className="chat-delete-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteChat(chat.id);
+                          }}
+                          title="Удалить чат"
+                        >
+                          Удалить чат
+                        </button>
+                      </div>
                     </li>
                   ))
                 )}

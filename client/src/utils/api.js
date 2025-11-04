@@ -1,211 +1,234 @@
-const API_URL = '/api';
+const API_URL = "/api";
 
 const getAuthHeader = () => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
 // Posts API
 export const postsAPI = {
   getAll: async (category = null) => {
-    const url = category ? `${API_URL}/posts?category=${category}` : `${API_URL}/posts`;
+    const url = category
+      ? `${API_URL}/posts?category=${category}`
+      : `${API_URL}/posts`;
     const response = await fetch(url, {
-      headers: getAuthHeader()
+      headers: getAuthHeader(),
     });
-    if (!response.ok) throw new Error('Failed to fetch posts');
+    if (!response.ok) throw new Error("Failed to fetch posts");
     return response.json();
   },
 
   getById: async (id) => {
     const response = await fetch(`${API_URL}/posts/${id}`, {
-      headers: getAuthHeader()
+      headers: getAuthHeader(),
     });
-    if (!response.ok) throw new Error('Failed to fetch post');
+    if (!response.ok) throw new Error("Failed to fetch post");
     return response.json();
   },
 
   create: async (postData) => {
     const response = await fetch(`${API_URL}/posts`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        ...getAuthHeader()
+        "Content-Type": "application/json",
+        ...getAuthHeader(),
       },
-      body: JSON.stringify(postData)
+      body: JSON.stringify(postData),
     });
-    if (!response.ok) throw new Error('Failed to create post');
+    if (!response.ok) throw new Error("Failed to create post");
     return response.json();
   },
 
   addComment: async (postId, commentData) => {
     const response = await fetch(`${API_URL}/posts/${postId}/comments`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        ...getAuthHeader()
+        "Content-Type": "application/json",
+        ...getAuthHeader(),
       },
-      body: JSON.stringify(commentData)
+      body: JSON.stringify(commentData),
     });
-    if (!response.ok) throw new Error('Failed to add comment');
+    if (!response.ok) throw new Error("Failed to add comment");
     return response.json();
   },
 
   delete: async (id) => {
     const response = await fetch(`${API_URL}/posts/${id}`, {
-      method: 'DELETE',
-      headers: getAuthHeader()
+      method: "DELETE",
+      headers: getAuthHeader(),
     });
-    if (!response.ok) throw new Error('Failed to delete post');
-  }
+    if (!response.ok) throw new Error("Failed to delete post");
+  },
 };
 
 // Articles API
 export const articlesAPI = {
   getAll: async (category = null) => {
-    const url = category ? `${API_URL}/articles?category=${category}` : `${API_URL}/articles`;
+    const url = category
+      ? `${API_URL}/articles?category=${category}`
+      : `${API_URL}/articles`;
     const response = await fetch(url, {
-      headers: getAuthHeader()
+      headers: getAuthHeader(),
     });
-    if (!response.ok) throw new Error('Failed to fetch articles');
+    if (!response.ok) throw new Error("Failed to fetch articles");
     return response.json();
   },
 
   getById: async (id) => {
     const response = await fetch(`${API_URL}/articles/${id}`, {
-      headers: getAuthHeader()
+      headers: getAuthHeader(),
     });
-    if (!response.ok) throw new Error('Failed to fetch article');
+    if (!response.ok) throw new Error("Failed to fetch article");
     return response.json();
   },
 
   create: async (articleData) => {
     const response = await fetch(`${API_URL}/articles`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        ...getAuthHeader()
+        "Content-Type": "application/json",
+        ...getAuthHeader(),
       },
-      body: JSON.stringify(articleData)
+      body: JSON.stringify(articleData),
     });
-    if (!response.ok) throw new Error('Failed to create article');
+    if (!response.ok) throw new Error("Failed to create article");
     return response.json();
   },
 
   update: async (id, articleData) => {
     const response = await fetch(`${API_URL}/articles/${id}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
-        ...getAuthHeader()
+        "Content-Type": "application/json",
+        ...getAuthHeader(),
       },
-      body: JSON.stringify(articleData)
+      body: JSON.stringify(articleData),
     });
-    if (!response.ok) throw new Error('Failed to update article');
+    if (!response.ok) throw new Error("Failed to update article");
     return response.json();
   },
 
   delete: async (id) => {
     const response = await fetch(`${API_URL}/articles/${id}`, {
-      method: 'DELETE',
-      headers: getAuthHeader()
+      method: "DELETE",
+      headers: getAuthHeader(),
     });
-    if (!response.ok) throw new Error('Failed to delete article');
-  }
+    if (!response.ok) throw new Error("Failed to delete article");
+  },
 };
 
 // Messages API
 export const messagesAPI = {
   getChats: async () => {
     const response = await fetch(`${API_URL}/messages/chats`, {
-      headers: getAuthHeader()
+      headers: getAuthHeader(),
     });
-    if (!response.ok) throw new Error('Failed to fetch chats');
+    if (!response.ok) throw new Error("Failed to fetch chats");
     return response.json();
   },
 
   getOrCreateChat: async (userId) => {
     const response = await fetch(`${API_URL}/messages/chats`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        ...getAuthHeader()
+        "Content-Type": "application/json",
+        ...getAuthHeader(),
       },
-      body: JSON.stringify({ userId })
+      body: JSON.stringify({ userId }),
     });
-    if (!response.ok) throw new Error('Failed to get or create chat');
+    if (!response.ok) throw new Error("Failed to get or create chat");
     return response.json();
   },
 
   getChatMessages: async (chatId) => {
-    const response = await fetch(`${API_URL}/messages/chats/${chatId}/messages`, {
-      headers: getAuthHeader()
-    });
-    if (!response.ok) throw new Error('Failed to fetch messages');
+    const response = await fetch(
+      `${API_URL}/messages/chats/${chatId}/messages`,
+      {
+        headers: getAuthHeader(),
+      }
+    );
+    if (!response.ok) throw new Error("Failed to fetch messages");
     return response.json();
   },
 
   sendMessage: async (chatId, text) => {
-    const response = await fetch(`${API_URL}/messages/chats/${chatId}/messages`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...getAuthHeader()
-      },
-      body: JSON.stringify({ text })
-    });
-    if (!response.ok) throw new Error('Failed to send message');
+    const response = await fetch(
+      `${API_URL}/messages/chats/${chatId}/messages`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...getAuthHeader(),
+        },
+        body: JSON.stringify({ text }),
+      }
+    );
+    if (!response.ok) throw new Error("Failed to send message");
     return response.json();
   },
 
   getOrCreateAyalaChat: async () => {
     const response = await fetch(`${API_URL}/messages/chats/ayala`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        ...getAuthHeader()
-      }
+        "Content-Type": "application/json",
+        ...getAuthHeader(),
+      },
     });
-    if (!response.ok) throw new Error('Failed to create Ayala chat');
+    if (!response.ok) throw new Error("Failed to create Ayala chat");
     return response.json();
-  }
+  },
+  deleteChat: async (chatId) => {
+    const response = await fetch(`${API_URL}/messages/chats/${chatId}`, {
+      method: "DELETE",
+      headers: getAuthHeader(),
+    });
+    if (!response.ok) throw new Error("Failed to delete chat");
+  },
 };
 
 // Favorites API
 export const favoritesAPI = {
   getAll: async () => {
     const response = await fetch(`${API_URL}/favorites`, {
-      headers: getAuthHeader()
+      headers: getAuthHeader(),
     });
-    if (!response.ok) throw new Error('Failed to fetch favorites');
+    if (!response.ok) throw new Error("Failed to fetch favorites");
     return response.json();
   },
 
   add: async (articleCategory, articleId) => {
     const response = await fetch(`${API_URL}/favorites`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        ...getAuthHeader()
+        "Content-Type": "application/json",
+        ...getAuthHeader(),
       },
-      body: JSON.stringify({ articleCategory, articleId })
+      body: JSON.stringify({ articleCategory, articleId }),
     });
-    if (!response.ok) throw new Error('Failed to add favorite');
+    if (!response.ok) throw new Error("Failed to add favorite");
     return response.json();
   },
 
   remove: async (articleCategory, articleId) => {
-    const response = await fetch(`${API_URL}/favorites?articleCategory=${articleCategory}&articleId=${articleId}`, {
-      method: 'DELETE',
-      headers: getAuthHeader()
-    });
-    if (!response.ok) throw new Error('Failed to remove favorite');
+    const response = await fetch(
+      `${API_URL}/favorites?articleCategory=${articleCategory}&articleId=${articleId}`,
+      {
+        method: "DELETE",
+        headers: getAuthHeader(),
+      }
+    );
+    if (!response.ok) throw new Error("Failed to remove favorite");
   },
 
   check: async (articleCategory, articleId) => {
-    const response = await fetch(`${API_URL}/favorites/check?articleCategory=${articleCategory}&articleId=${articleId}`, {
-      headers: getAuthHeader()
-    });
-    if (!response.ok) throw new Error('Failed to check favorite');
+    const response = await fetch(
+      `${API_URL}/favorites/check?articleCategory=${articleCategory}&articleId=${articleId}`,
+      {
+        headers: getAuthHeader(),
+      }
+    );
+    if (!response.ok) throw new Error("Failed to check favorite");
     return response.json();
-  }
+  },
 };

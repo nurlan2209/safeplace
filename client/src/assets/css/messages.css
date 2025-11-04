@@ -292,6 +292,47 @@
   border-bottom: 1px solid #f7fafc;
 }
 
+/* layout helpers for chat item actions */
+.chat-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chat-item-main {
+  flex: 1 1 auto;
+  min-width: 0; /* allow ellipsis to work */
+}
+
+.chat-item-actions {
+  margin-left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Delete button styled similar to other primary buttons */
+.chat-delete-btn {
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.chat-delete-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(232, 155, 161, 0.4);
+}
+
 .chat-item:hover {
   background: var(--primary-light);
 }
@@ -368,7 +409,9 @@
 }
 
 @keyframes typingBounce {
-  0%, 60%, 100% {
+  0%,
+  60%,
+  100% {
     transform: translateY(0);
   }
   30% {

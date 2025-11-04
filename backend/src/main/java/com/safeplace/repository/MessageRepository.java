@@ -10,4 +10,7 @@ import java.util.List;
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
     List<Message> findByChatIdOrderByCreatedAtAsc(Long chatId);
+    
+    // Delete all messages that belong to a chat (used when removing a chat)
+    void deleteByChatId(Long chatId);
 }
