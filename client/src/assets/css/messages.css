@@ -498,3 +498,75 @@
         padding: 10px 15px;
     }
 }
+
+.back-to-chats-button {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--primary-color); /* Или ваш основной цвет */
+  cursor: pointer;
+  padding: 0 10px 0 0;
+}
+
+@media (max-width: 768px) {
+  .chat-container {
+      position: relative;
+      overflow-x: hidden;
+      /* Убедимся, что он занимает высоту */
+      height: calc(100vh - 150px); /* Высота экрана минус шапка и h1 */
+  }
+
+  /* 2. Список чатов (ваш .chat-list) */
+  .chat-list {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 2;
+      transition: transform 0.3s ease-in-out;
+      background: #fff; /* Добавим фон, чтобы не был прозрачным */
+  }
+
+  /* 3. Окно чата (ваш .chat-box) */
+  .chat-box {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 1;
+      transform: translateX(100%); /* Спрятан справа */
+      transition: transform 0.3s ease-in-out;
+      background: #fff; /* Фон, чтобы не был прозрачным */
+      /* Убедимся, что он может скроллиться */
+      display: flex;
+      flex-direction: column;
+  }
+
+  /* 4. Показываем кнопку "Назад" на мобильных */
+  .back-to-chats-button {
+      display: inline-block;
+  }
+  
+  /* 5. Магия: когда у .chat-container есть класс .chat-active */
+  
+  /* Сдвигаем список чатов влево */
+  .chat-container.chat-active .chat-list {
+      transform: translateX(-100%);
+  }
+  
+  /* Показываем окно чата */
+  .chat-container.chat-active .chat-box {
+      transform: translateX(0);
+      z-index: 3;
+  }
+
+  /* Исправим кнопку удаления в списке чатов на мобильных */
+  .chat-delete-btn {
+      font-size: 0.8rem;
+      padding: 4px 8px;
+  }
+}

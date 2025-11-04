@@ -6,6 +6,7 @@ import "../assets/css/messages.css";
 
 const Messages = () => {
   const [chats, setChats] = useState([]);
+  const [currentChat, setCurrentChat] = useState(null);
   const [activeChat, setActiveChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
@@ -168,7 +169,7 @@ const Messages = () => {
         {loading ? (
           <p>Загрузка чатов...</p>
         ) : (
-          <div className="chat-container">
+          <div className={`chat-container ${activeChat ? "chat-active" : ""}`}>
             <aside className="chat-list">
               <div className="chat-list-header">
                 <h2>Мои чаты</h2>
@@ -227,6 +228,12 @@ const Messages = () => {
               {activeChat ? (
                 <>
                   <div className="chat-header">
+                    <button
+                      className="back-to-chats-button"
+                      onClick={() => setActiveChat(null)}
+                    >
+                      ← Назад
+                    </button>
                     <h3>{getChatTitle(activeChat)}</h3>
                   </div>
 
