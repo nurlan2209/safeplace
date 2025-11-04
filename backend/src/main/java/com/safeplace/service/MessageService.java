@@ -76,6 +76,21 @@ public class MessageService {
         return savedMessage;
     }
 
+    public void deleteChat(Long userId, Long chatId) {
+        Chat chat = chatRepository.findById(chatId)
+                .orElseThrow(() -> new RuntimeException("Чат не найден"));
+
+        if (!chat.getUser().getId().equals(userId)) {
+            throw new RuntimeException("Доступ запрещен");
+        }
+
+        // First remove messages referencing the chat to avoid FK constraint problems
+        messageRepository.deleteByChatId(chatId);
+
+        // Then remove the chat itself
+        chatRepository.deleteById(chatId);
+    }
+
     public List<Message> getChatMessages(Long chatId) {
         return messageRepository.findByChatIdOrderByCreatedAtAsc(chatId);
     }
