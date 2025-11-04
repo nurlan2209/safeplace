@@ -127,3 +127,55 @@ body {
   border-color: #d47fa6;
 }
 
+/* Планшеты и телефоны (ширина 768px и меньше) */
+@media (max-width: 768px) {
+
+    /* * Если у вас карточка профиля (аватар + инфо) использует flex,
+     * ставим 'flex-direction: column', чтобы выстроить их по вертикали.
+     */
+    .profile-card, .profile-header {
+        flex-direction: column;
+        align-items: center; /* Центрируем аватар и текст */
+        text-align: center;
+    }
+
+    /* * Убираем отступ справа у аватара (если был)
+     * и добавляем отступ снизу.
+     */
+    .profile-avatar {
+        margin-right: 0;
+        margin-bottom: 20px;
+        width: 120px;  /* Можно сделать аватар чуть меньше */
+        height: 120px;
+    }
+
+    /* * Блок со статистикой (посты, комментарии)
+     * также ставим в колонку, если он был в строку.
+     */
+    .profile-stats {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+        margin-top: 20px;
+    }
+    
+    .stat-item {
+        margin: 5px 0;
+    }
+
+    /* * Кнопки "Редактировать", "Сменить пароль"
+     * растягиваем на всю ширину.
+     */
+    .profile-actions {
+        flex-direction: column;
+        width: 100%;
+        max-width: 350px; /* Ограничим макс. ширину кнопок */
+        gap: 10px;
+    }
+
+    .profile-actions .btn, 
+    .profile-actions button {
+        width: 100%;
+        margin: 5px 0;
+    }
+}

@@ -18,6 +18,17 @@
   --radius-lg: 24px;
 }
 
+.main-content-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header-nav {
+  display: flex;
+  gap: 30px;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -778,4 +789,26 @@ main.home::after {
   margin-bottom: 16px;
   font-size: 14px;
   border-left: 4px solid #22543d;
+}
+
+@media (max-width: 768px) {
+    
+  .main-content-wrapper {
+      width: 100%;
+      padding: 15px;
+  }
+
+  /* Навигацию, скорее всего, нужно будет скрыть
+   и заменить на кнопку "бургер".
+   Пока просто скроем ее.
+  */
+  .header-nav {
+      display: none; 
+  }
+
+  /* Нужно будет добавить кнопку-бургер (это делается в React), 
+     а пока просто для примера: */
+  .mobile-menu-button {
+      display: block; /* Показываем кнопку-бургер */
+  }
 }

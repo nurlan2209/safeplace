@@ -119,3 +119,25 @@ body {
 .delete:hover {
   background-color: #b05252;
 }
+
+/* Планшеты (ширина 768px и меньше) */
+@media (max-width: 768px) {
+
+    /* * Сетку 'display: grid'
+     * меняем на 2 колонки.
+     */
+    .favorites-grid, .favorites-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+/* Телефоны (ширина 480px и меньше) */
+@media (max-width: 480px) {
+    
+    /* * На телефонах ставим 1 колонку.
+     */
+    .favorites-grid, .favorites-list {
+        grid-template-columns: 1fr;
+    }
+}

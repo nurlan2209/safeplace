@@ -240,3 +240,53 @@
     width: 95%;
   }
 }
+
+@media (max-width: 900px) {
+
+  /* * Если у вас основной контейнер форума использует 'display: flex' 
+   * (для боковой панели и постов),
+   * мы меняем направление на 'column', чтобы они встали друг под другом.
+   */
+  .forum-container, .forum-layout {
+      flex-direction: column;
+      align-items: center; /* Центрируем, чтобы красиво было */
+  }
+
+  /* * Боковой панели (фильтры, категории) задаем 100% ширины.
+   * Убираем 'position: sticky', если он был, т.к. он плохо работает в колонке.
+   */
+  .forum-sidebar, .forum-filters {
+      width: 100%;
+      max-width: 500px; /* Ограничим, чтобы на планшете не было слишком широко */
+      margin-bottom: 20px;
+      position: static;
+      order: -1; /* Ставим фильтры *перед* постами на мобильных */
+  }
+
+  /* * Контейнеру со списком постов тоже даем 100% ширины.
+   */
+  .posts-list-container, .forum-posts {
+      width: 100%;
+  }
+}
+
+/* Только телефоны (ширина 480px и меньше) */
+@media (max-width: 480px) {
+
+  /* Уменьшаем отступы у карточки поста для экономии места */
+  .post-card, .forum-post-item {
+      padding: 15px;
+  }
+
+  /* Уменьшаем шрифт заголовка поста */
+  .post-card h3, .forum-post-item h3 {
+      font-size: 1.2rem;
+  }
+
+  /* Кнопку "Создать пост" делаем на всю ширину */
+  .create-post-button, .new-post-btn {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+  }
+}
