@@ -14,6 +14,7 @@ const Messages = () => {
   const [error, setError] = useState("");
   const [isCreatingChat, setIsCreatingChat] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [isChatActive, setIsChatActive] = useState(false); // Для мобильной активации
   const messagesEndRef = useRef(null);
   const pollingInterval = useRef(null);
 
@@ -94,7 +95,13 @@ const Messages = () => {
   const handleChatChange = (chat) => {
     setActiveChat(chat);
     setIsTyping(false);
+    setIsChatActive(true); // Активируем чат на мобильных
     loadMessages(chat.id);
+  };
+
+  const handleBackToChats = () => {
+    setIsChatActive(false);
+    setActiveChat(null);
   };
 
   const handleCreateNewChat = async () => {
@@ -103,6 +110,7 @@ const Messages = () => {
       const newChat = await messagesAPI.getOrCreateAyalaChat();
       await loadChats();
       setActiveChat(newChat);
+      setIsChatActive(true);
       loadMessages(newChat.id);
     } catch (err) {
       setError("Ошибка создания чата: " + err.message);
@@ -115,11 +123,11 @@ const Messages = () => {
     if (!window.confirm("Удалить этот чат? Это действие необратимо.")) return;
     try {
       await messagesAPI.deleteChat(chatId);
-      // Reload chats and clear active if it was the deleted one
       await loadChats();
       if (activeChat?.id === chatId) {
         setActiveChat(null);
         setMessages([]);
+        setIsChatActive(false);
       }
     } catch (err) {
       setError("Ошибка удаления чата: " + err.message);
@@ -134,7 +142,6 @@ const Messages = () => {
     setNewMessage("");
 
     try {
-      // If this is an AI chat, show typing indicator immediately while API works
       if (activeChat.isAiChat) {
         setIsTyping(true);
       }
@@ -142,7 +149,6 @@ const Messages = () => {
       const message = await messagesAPI.sendMessage(activeChat.id, tempMessage);
       setMessages((prev) => [...prev, message]);
 
-      // Refresh chats (last message/ordering) and messages will be picked up by polling or loader
       await loadChats();
     } catch (err) {
       setError("Ошибка отправки сообщения: " + err.message);
@@ -169,7 +175,9 @@ const Messages = () => {
         {loading ? (
           <p>Загрузка чатов...</p>
         ) : (
-          <div className={`chat-container ${activeChat ? "chat-active" : ""}`}>
+          <div
+            className={`chat-container ${isChatActive ? "chat-active" : ""}`}
+          >
             <aside className="chat-list">
               <div className="chat-list-header">
                 <h2>Мои чаты</h2>
@@ -212,7 +220,7 @@ const Messages = () => {
                           }}
                           title="Удалить чат"
                         >
-                          Удалить чат
+                          Удалить
                         </button>
                       </div>
                     </li>
@@ -230,7 +238,7 @@ const Messages = () => {
                   <div className="chat-header">
                     <button
                       className="back-to-chats-button"
-                      onClick={() => setActiveChat(null)}
+                      onClick={handleBackToChats}
                     >
                       ← Назад
                     </button>

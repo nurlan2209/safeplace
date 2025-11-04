@@ -70,13 +70,10 @@ const Forum = () => {
     <>
       <Header isLogged={true} />
       <main className="forum">
-        <div className="back-link">
-          <Link to="/user-home">← Назад на главную</Link>
-        </div>
 
         <div className="forum-header">
           <h1>Форум SafePlace</h1>
-          <button className="btn" onClick={() => setIsModalOpen(true)}>
+          <button className="btn-forum" onClick={() => setIsModalOpen(true)}>
             Создать тему
           </button>
         </div>

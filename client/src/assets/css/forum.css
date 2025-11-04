@@ -197,6 +197,17 @@
   height: 20px;
 }
 
+.btn-forum {
+  background: linear-gradient(135deg, #e89ba1, #b86469) !important;
+  border: none;
+  color: white;
+  box-shadow: 0 4px 15px #e89ba14d;
+  overflow: hidden;
+  border-radius: 5px;
+  position: relative;
+  transition: all .3s cubic-bezier(.4, 0, .2, 1);
+}
+
 .modal-content form .btn {
   width: 100%;
   margin-top: 28px;

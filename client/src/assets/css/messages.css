@@ -107,6 +107,9 @@
   padding: 24px 28px;
   border-bottom: 2px solid var(--primary-light);
   background: white;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .chat-header h3 {
@@ -114,6 +117,23 @@
   font-size: 22px;
   font-weight: 700;
   color: var(--text-primary);
+}
+
+.back-to-chats-button {
+  display: none; /* Показывается только на мобильных */
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  transition: all 0.3s ease;
+}
+
+.back-to-chats-button:hover {
+  background: var(--primary-light);
 }
 
 .chat-messages {
@@ -217,40 +237,6 @@
   font-size: 16px;
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
-  .messages-page {
-    padding: 40px 20px;
-  }
-
-  .chat-container {
-    grid-template-columns: 1fr;
-    height: auto;
-  }
-
-  .chat-list {
-    max-height: 300px;
-  }
-
-  .chat-box {
-    min-height: 500px;
-  }
-
-  .message {
-    max-width: 85%;
-  }
-}
-
-@media (max-width: 768px) {
-  .messages-page h1 {
-    font-size: 32px;
-  }
-
-  .chat-input button {
-    padding: 14px 20px;
-  }
-}
-
 .chat-list-header {
   padding: 24px 24px 16px;
   border-bottom: 2px solid var(--primary-light);
@@ -290,10 +276,6 @@
   cursor: pointer;
   transition: all 0.3s ease;
   border-bottom: 1px solid #f7fafc;
-}
-
-/* layout helpers for chat item actions */
-.chat-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -301,7 +283,7 @@
 
 .chat-item-main {
   flex: 1 1 auto;
-  min-width: 0; /* allow ellipsis to work */
+  min-width: 0;
 }
 
 .chat-item-actions {
@@ -311,7 +293,6 @@
   gap: 8px;
 }
 
-/* Delete button styled similar to other primary buttons */
 .chat-delete-btn {
   background: var(--primary-gradient);
   color: white;
@@ -424,149 +405,210 @@
   padding: 10px 14px;
 }
 
-/* Планшеты и телефоны (ширина 768px и меньше) */
-@media (max-width: 768px) {
-    
-    /* * Главный контейнер чатов.
-     * Мы делаем его 'overflow: hidden', чтобы скрыть анимацию сдвига.
-     */
-    .messages-container, .chat-page-layout {
-        position: relative;
-        overflow-x: hidden;
-        height: calc(100vh - 80px); /* Занимаем весь экран минус шапка */
-    }
+/* ========================================
+   МОБИЛЬНАЯ АДАПТАЦИЯ
+   ======================================== */
 
-    /* * Боковая панель (список чатов)
-     * По умолчанию она занимает 100% ширины.
-     */
-    .chat-list-sidebar, .chats-sidebar {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        border-right: none;
-        z-index: 2; /* Панель чатов поверх окна чата */
-        transition: transform 0.3s ease-in-out;
-    }
+@media (max-width: 1024px) {
+  .messages-page {
+    padding: 40px 20px;
+  }
 
-    /* * Окно самого чата
-     * По умолчанию оно тоже занимает 100% ширины,
-     * но "спрятано" справа за экраном.
-     */
-    .chat-window {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        left: 0; /* Сначала 'left: 100%' - но для JS-логики проще 'left: 0' */
-        top: 0;
-        z-index: 1; /* Окно чата под панелью чатов */
-        transition: transform 0.3s ease-in-out;
-    }
-
-
-    /* ***
-     * ВОЛШЕБСТВО ПРОИСХОДИТ ЗДЕСЬ
-     *
-     * Когда ваш React-компонент добавляет класс '.chat-active' 
-     * (или '.chat-selected') к '.messages-container', 
-     * мы "сдвигаем" оба блока влево.
-     * ***/
-
-    /* Сдвигаем список чатов влево за экран */
-    .messages-container.chat-active .chat-list-sidebar,
-    .chat-page-layout.chat-active .chats-sidebar {
-        transform: translateX(-100%);
-    }
-
-    /* "Показываем" окно чата, поднимая его z-index */
-    .messages-container.chat-active .chat-window,
-    .chat-page-layout.chat-active .chat-window {
-        z-index: 3;
-    }
-
-
-    /* * Кнопка "Назад" (которую нужно добавить в React-компоненте)
-     * должна быть видна только в активном чате на мобильных.
-     */
-    .back-to-chats-button {
-        display: block; /* Показываем кнопку "Назад" */
-        margin-bottom: 10px;
-    }
-
-    .chat-window-header {
-        padding: 10px 15px;
-    }
-}
-
-.back-to-chats-button {
-  display: none;
-  background: none;
-  border: none;
-  font-size: 1rem;
-  font-weight: bold;
-  color: var(--primary-color); /* Или ваш основной цвет */
-  cursor: pointer;
-  padding: 0 10px 0 0;
-}
-
-@media (max-width: 768px) {
   .chat-container {
-      position: relative;
-      overflow-x: hidden;
-      /* Убедимся, что он занимает высоту */
-      height: calc(100vh - 150px); /* Высота экрана минус шапка и h1 */
+    grid-template-columns: 1fr;
+    height: auto;
   }
 
-  /* 2. Список чатов (ваш .chat-list) */
   .chat-list {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      left: 0;
-      top: 0;
-      z-index: 2;
-      transition: transform 0.3s ease-in-out;
-      background: #fff; /* Добавим фон, чтобы не был прозрачным */
+    max-height: 300px;
   }
 
-  /* 3. Окно чата (ваш .chat-box) */
   .chat-box {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      left: 0;
-      top: 0;
-      z-index: 1;
-      transform: translateX(100%); /* Спрятан справа */
-      transition: transform 0.3s ease-in-out;
-      background: #fff; /* Фон, чтобы не был прозрачным */
-      /* Убедимся, что он может скроллиться */
-      display: flex;
-      flex-direction: column;
+    min-height: 500px;
   }
 
-  /* 4. Показываем кнопку "Назад" на мобильных */
+  .message {
+    max-width: 85%;
+  }
+}
+
+@media (max-width: 768px) {
+  .messages-page h1 {
+    font-size: 32px;
+  }
+
+  .messages-page {
+    padding: 30px 15px;
+  }
+
+  /* Контейнер чатов становится позиционным */
+  .chat-container {
+    position: relative;
+    overflow-x: hidden;
+    height: calc(100vh - 150px);
+    grid-template-columns: 1fr;
+  }
+
+  /* Список чатов - по умолчанию видимый */
+  .chat-list {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    transition: transform 0.3s ease-in-out;
+    background: #fff;
+    max-height: none;
+  }
+
+  /* Окно чата - по умолчанию скрыто справа */
+  .chat-box {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  /* Показываем кнопку "Назад" */
   .back-to-chats-button {
-      display: inline-block;
-  }
-  
-  /* 5. Магия: когда у .chat-container есть класс .chat-active */
-  
-  /* Сдвигаем список чатов влево */
-  .chat-container.chat-active .chat-list {
-      transform: translateX(-100%);
-  }
-  
-  /* Показываем окно чата */
-  .chat-container.chat-active .chat-box {
-      transform: translateX(0);
-      z-index: 3;
+    display: inline-block;
   }
 
-  /* Исправим кнопку удаления в списке чатов на мобильных */
+  /* Когда чат активен */
+  .chat-container.chat-active .chat-list {
+    transform: translateX(-100%);
+  }
+
+  .chat-container.chat-active .chat-box {
+    transform: translateX(0);
+    z-index: 3;
+  }
+
+  /* Адаптация элементов */
+  .chat-input button {
+    padding: 14px 20px;
+  }
+
   .chat-delete-btn {
-      font-size: 0.8rem;
-      padding: 4px 8px;
+    font-size: 0.8rem;
+    padding: 4px 8px;
+  }
+
+  .chat-header {
+    padding: 16px 20px;
+  }
+
+  .chat-header h3 {
+    font-size: 18px;
+  }
+
+  .chat-messages {
+    padding: 20px 16px;
+  }
+
+  .chat-input {
+    padding: 16px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .messages-page h1 {
+    font-size: 26px;
+    margin-bottom: 20px;
+  }
+
+  .chat-container {
+    height: calc(100vh - 130px);
+  }
+
+  .chat-header {
+    padding: 12px 15px;
+  }
+
+  .chat-header h3 {
+    font-size: 16px;
+  }
+
+  .back-to-chats-button {
+    font-size: 14px;
+    padding: 6px 10px;
+  }
+
+  .chat-input input {
+    font-size: 14px;
+    padding: 12px 14px;
+  }
+
+  .chat-input button {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  .message {
+    font-size: 14px;
+    padding: 10px 14px;
+    max-width: 90%;
+  }
+
+  .chat-item {
+    padding: 14px 16px;
+  }
+
+  .chat-item-title {
+    font-size: 14px;
+  }
+
+  .chat-item-preview {
+    font-size: 12px;
+  }
+
+  .new-chat-btn {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .chat-list-header {
+    padding: 16px;
+  }
+
+  .chat-list-header h2 {
+    font-size: 18px;
+  }
+}
+
+/* Landscape ориентация */
+@media (max-height: 600px) and (orientation: landscape) {
+  .chat-container {
+    height: calc(100vh - 100px);
+  }
+
+  .messages-page {
+    padding: 20px 15px;
+  }
+
+  .messages-page h1 {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+}
+
+/* iOS Safari fixes */
+@supports (-webkit-touch-callout: none) {
+  .chat-container {
+    height: calc(100vh - 150px);
+    height: calc(100dvh - 150px);
+  }
+
+  .chat-input input {
+    font-size: 16px !important;
   }
 }

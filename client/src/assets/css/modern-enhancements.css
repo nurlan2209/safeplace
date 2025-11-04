@@ -61,17 +61,11 @@ header, .header-logged {
 
 /* Enhanced cards */
 .section-card, .category, .help-card, .profile-sidebar, .profile-details {
-  background: rgba(255, 255, 255, 0.95) !important;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px rgba(184, 100, 105, 0.1) !important;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  border: 1px solid rgba(232, 155, 161, 0.2);
 }
 
 .section-card:hover, .category:hover, .help-card:hover {
   transform: translateY(-8px) scale(1.02) !important;
-  box-shadow: 0 16px 48px rgba(184, 100, 105, 0.2) !important;
-  border-color: rgba(232, 155, 161, 0.4);
 }
 
 /* Animated gradient backgrounds */
@@ -144,10 +138,6 @@ header nav a::after, .header-logged nav a::after {
   height: 2px;
   background: linear-gradient(90deg, #E89BA1, #B86469);
   transition: width 0.3s ease;
-}
-
-header nav a:hover::after, .header-logged nav a:hover::after {
-  width: 100%;
 }
 
 /* Chat messages enhancement */
@@ -305,7 +295,6 @@ a:focus, button:focus, input:focus, select:focus, textarea:focus {
 @media (max-width: 768px) {
   .btn, button {
     padding: 14px 24px !important;
-    font-size: 16px !important;
   }
 
   header, .header-logged {

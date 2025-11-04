@@ -9,12 +9,10 @@ const Home = () => {
       <Header isLogged={false} />
       <main className="home">
         <section className="left">
-          <h1>SafePlace —<br /> your safety in your hands</h1>
+          <h1>
+            SafePlace —<br /> your safety in your hands
+          </h1>
           <p className="subtitle">Место, где тебя понимают</p>
-          <div className="buttons">
-            <Link to="/register" className="btn">Регистрация</Link>
-            <Link to="/login" className="btn btn-light">Вход</Link>
-          </div>
         </section>
 
         <section className="right">
