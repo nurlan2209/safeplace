@@ -380,3 +380,78 @@
   background: white;
   padding: 10px 14px;
 }
+
+/* Планшеты и телефоны (ширина 768px и меньше) */
+@media (max-width: 768px) {
+    
+    /* * Главный контейнер чатов.
+     * Мы делаем его 'overflow: hidden', чтобы скрыть анимацию сдвига.
+     */
+    .messages-container, .chat-page-layout {
+        position: relative;
+        overflow-x: hidden;
+        height: calc(100vh - 80px); /* Занимаем весь экран минус шапка */
+    }
+
+    /* * Боковая панель (список чатов)
+     * По умолчанию она занимает 100% ширины.
+     */
+    .chat-list-sidebar, .chats-sidebar {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        border-right: none;
+        z-index: 2; /* Панель чатов поверх окна чата */
+        transition: transform 0.3s ease-in-out;
+    }
+
+    /* * Окно самого чата
+     * По умолчанию оно тоже занимает 100% ширины,
+     * но "спрятано" справа за экраном.
+     */
+    .chat-window {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0; /* Сначала 'left: 100%' - но для JS-логики проще 'left: 0' */
+        top: 0;
+        z-index: 1; /* Окно чата под панелью чатов */
+        transition: transform 0.3s ease-in-out;
+    }
+
+
+    /* ***
+     * ВОЛШЕБСТВО ПРОИСХОДИТ ЗДЕСЬ
+     *
+     * Когда ваш React-компонент добавляет класс '.chat-active' 
+     * (или '.chat-selected') к '.messages-container', 
+     * мы "сдвигаем" оба блока влево.
+     * ***/
+
+    /* Сдвигаем список чатов влево за экран */
+    .messages-container.chat-active .chat-list-sidebar,
+    .chat-page-layout.chat-active .chats-sidebar {
+        transform: translateX(-100%);
+    }
+
+    /* "Показываем" окно чата, поднимая его z-index */
+    .messages-container.chat-active .chat-window,
+    .chat-page-layout.chat-active .chat-window {
+        z-index: 3;
+    }
+
+
+    /* * Кнопка "Назад" (которую нужно добавить в React-компоненте)
+     * должна быть видна только в активном чате на мобильных.
+     */
+    .back-to-chats-button {
+        display: block; /* Показываем кнопку "Назад" */
+        margin-bottom: 10px;
+    }
+
+    .chat-window-header {
+        padding: 10px 15px;
+    }
+}

@@ -88,3 +88,30 @@ body {
 .back-link a:hover {
   text-decoration: underline;
 }
+
+/* Планшеты (ширина 768px и меньше) */
+@media (max-width: 768px) {
+
+    /* * Если у вас сетка 'display: grid', 
+     * меняем ее на 2 колонки для планшетов.
+     */
+    .articles-grid, .article-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+/* Телефоны (ширина 480px и меньше) */
+@media (max-width: 480px) {
+    
+    /* * На телефонах ставим 1 колонку.
+     */
+    .articles-grid, .article-list {
+        grid-template-columns: 1fr;
+    }
+
+    /* Уменьшаем отступы у заголовка категории */
+    .article-category-header h1 {
+        font-size: 1.8rem;
+    }
+}
