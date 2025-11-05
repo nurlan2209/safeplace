@@ -30,9 +30,9 @@ const ChangePassword = () => {
     }
 
     try {
-      await axios.put('/api/auth/change-password', {
+      await axios.post("/api/auth/change-password", {
         currentPassword: formData.currentPassword,
-        newPassword: formData.newPassword
+        newPassword: formData.newPassword,
       });
       setMessage('Пароль успешно изменен!');
       setFormData({ currentPassword: '', newPassword: '', confirmPassword: '' });
