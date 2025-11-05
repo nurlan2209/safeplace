@@ -14,7 +14,7 @@ body {
 }
 
 /* Enhanced header with glassmorphism */
-header, .header-logged {
+ .header-logged {
   background: linear-gradient(135deg, #FDE2E2 0%, #FFE8E8 100%) !important;
   box-shadow: 0 2px 20px rgba(232, 155, 161, 0.15) !important;
   backdrop-filter: blur(10px);
@@ -69,7 +69,7 @@ header, .header-logged {
 }
 
 /* Animated gradient backgrounds */
-.user-home, .form-page, .about-page {
+.user-home, .about-page {
   background: linear-gradient(135deg, #E89BA1 0%, #C77D83 50%, #E89BA1 100%) !important;
   background-size: 200% 200%;
   animation: gradientShift 15s ease infinite;
@@ -157,7 +157,6 @@ header nav a::after, .header-logged nav a::after {
 
 /* Enhanced form containers */
 .form-container {
-  background: rgba(253, 226, 226, 0.95) !important;
   backdrop-filter: blur(20px);
   box-shadow: 0 20px 60px rgba(184, 100, 105, 0.25) !important;
   border: 1px solid rgba(255, 255, 255, 0.4);

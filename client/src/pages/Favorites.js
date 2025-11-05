@@ -93,14 +93,11 @@ const Favorites = () => {
   return (
     <>
       <Header isLogged={true} />
-      <header className="header">
+      <div className="header-2">
         <h1>💖 Мои сохранённые</h1>
-      </header>
+      </div>
 
       <main className="favorites-page">
-        <div className="back-link">
-          <Link to="/user-home">← Назад на главную</Link>
-        </div>
 
         {error && (
           <div style={{ color: "#d9534f", marginBottom: "10px" }}>{error}</div>

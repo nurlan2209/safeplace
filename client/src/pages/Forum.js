@@ -70,11 +70,10 @@ const Forum = () => {
     <>
       <Header isLogged={true} />
       <main className="forum">
-
         <div className="forum-header">
           <h1>Форум SafePlace</h1>
           <button className="btn-forum" onClick={() => setIsModalOpen(true)}>
-            Создать тему
+            <h3 className='text-1'>Создать тему</h3>
           </button>
         </div>
 
@@ -96,7 +95,10 @@ const Forum = () => {
           <div className="category">
             <Link to="/forum/support" className="category-card">
               <h2>🌿 Советы и поддержка</h2>
-              <p>Темы от модераторов: как справиться с тревогой, где найти помощь.</p>
+              <p>
+                Темы от модераторов: как справиться с тревогой, где найти
+                помощь.
+              </p>
             </Link>
           </div>
 
@@ -110,11 +112,20 @@ const Forum = () => {
       </main>
 
       {isModalOpen && (
-        <div className="modal" style={{ display: 'flex' }}>
+        <div className="modal" style={{ display: "flex" }}>
           <div className="modal-content">
-            <span className="close" onClick={() => setIsModalOpen(false)}>&times;</span>
+            <span className="close" onClick={() => setIsModalOpen(false)}>
+              &times;
+            </span>
             <h2>Создать новую тему</h2>
-            {error && <div className="error-message" style={{color: '#d9534f', marginBottom: '10px'}}>{error}</div>}
+            {error && (
+              <div
+                className="error-message"
+                style={{ color: "#d9534f", marginBottom: "10px" }}
+              >
+                {error}
+              </div>
+            )}
             <form onSubmit={handleSubmit}>
               <label>Заголовок</label>
               <input
@@ -128,7 +139,12 @@ const Forum = () => {
               />
 
               <label>Категория</label>
-              <select name="category" value={formData.category} onChange={handleChange} disabled={isLoading}>
+              <select
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                disabled={isLoading}
+              >
                 <option value="health">Здоровье</option>
                 <option value="relationships">Отношения</option>
                 <option value="support">Советы и поддержка</option>
@@ -158,7 +174,7 @@ const Forum = () => {
               </label>
 
               <button type="submit" className="btn" disabled={isLoading}>
-                {isLoading ? 'Публикация...' : 'Опубликовать'}
+                {isLoading ? "Публикация..." : "Опубликовать"}
               </button>
             </form>
           </div>

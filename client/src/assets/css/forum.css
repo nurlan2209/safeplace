@@ -20,6 +20,7 @@
   font-weight: 800;
   color: var(--text-primary);
   margin: 0;
+  color: #b86469;
 }
 
 .categories {
@@ -203,9 +204,15 @@
   color: white;
   box-shadow: 0 4px 15px #e89ba14d;
   overflow: hidden;
+  width: 135px;
+  height: 40px;
   border-radius: 5px;
   position: relative;
   transition: all .3s cubic-bezier(.4, 0, .2, 1);
+}
+
+.text-1{
+  font-size: large;
 }
 
 .modal-content form .btn {

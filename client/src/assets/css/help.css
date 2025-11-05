@@ -1,8 +1,6 @@
 /* ===== Контейнер всей страницы ===== */
 .help-container {
-  max-width: 1150px;
-  margin: 50px auto;
-  background: #FDE2E2;
+  background: #f7fafc;
   padding: 50px 60px;
   border-radius: 26px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
